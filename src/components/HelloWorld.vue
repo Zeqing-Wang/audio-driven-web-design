@@ -6,6 +6,13 @@
       check out the
       <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
     </p>
+    <el-switch v-model="value1" />
+    <el-switch
+    v-model="value2"
+    class="ml-2"
+    style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+    />
+    <el-button type="primary">生成3D人脸动画</el-button>
     <h3>Installed CLI Plugins</h3>
     <ul>
       <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
@@ -31,6 +38,10 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
+const value1 = ref(true)
+const value2 = ref(true)
 export default {
   name: 'HelloWorld',
   props: {
