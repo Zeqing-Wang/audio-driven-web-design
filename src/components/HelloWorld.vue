@@ -12,7 +12,7 @@
     class="ml-2"
     style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
     />
-    <el-button type="primary">生成3D人脸动画</el-button>
+    <el-button type="primary">生成3D人脸动画d </el-button>
     <h3>Installed CLI Plugins</h3>
     <ul>
       <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
@@ -36,19 +36,29 @@
     </ul>
   </div>
 </template>
-
-<script>
+<script setup>
 import { ref } from 'vue'
 
 const value1 = ref(true)
 const value2 = ref(true)
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
 </script>
+
+<!-- <script>
+// import { ref } from 'vue'
+// const value1 = ref(true)
+// const value2 = ref(true)
+export default {
+  // name: 'HelloWorld',
+  // props: {
+  //   msg: String
+  // },
+  // data: {
+    
+  //   }
+  // }
+  
+}
+</script> -->
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
