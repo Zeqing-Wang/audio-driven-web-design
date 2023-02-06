@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
-    <img src="../assets/jlu.jpg" >
+    <el-image style="width: 10%" :src="require('../assets/jlu.jpg')" :fit="fit" />
+    <!-- <img src="../assets/jlu.jpg" > -->
     <h1>基于语音特征与身份ID的3D人脸动画生成系统</h1>
     王泽卿， 吉林大学 软件学院
     <p>
@@ -91,11 +92,15 @@
     </el-steps>
 
     <h3>第三步，提交数据，并等待您的3D人脸动画生成！</h3>
+
     <p></p>
+
     <div>
       <el-button type="primary" disabled>生成</el-button>
     </div>
+
     <p></p>
+
     <video controls width="500">
         <source src="/media/cc0-videos/flower.webm" type="video/webm">
 
@@ -108,13 +113,21 @@
         video.
     </video>
 
+    <el-row :gutter="20">
+      <el-col :span="6"><div class="grid-content ep-bg-purple" /></el-col>
+      <el-col :span="6"><div class="grid-content ep-bg-purple" /></el-col>
+      <el-col :span="6"><div class="grid-content ep-bg-purple" /></el-col>
+      <el-col :span="6"><div class="grid-content ep-bg-purple" /></el-col>
+    </el-row>
 
   </div>
 </template>
 <script setup>
 // import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
 import { ref } from 'vue'
-
+// const fits = ['fill', 'contain', 'cover', 'none', 'scale-down']
+const fit = 'fill'
+// const url = '../assets/jlu.jpg'
 const value = ref('')
 
 const options = [
@@ -142,22 +155,6 @@ const options = [
 
 </script>
 
-<!-- <script>
-// import { ref } from 'vue'
-// const value1 = ref(true)
-// const value2 = ref(true)
-export default {
-  // name: 'HelloWorld',
-  // props: {
-  //   msg: String
-  // },
-  // data: {
-    
-  //   }
-  // }
-  
-}
-</script> -->
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
@@ -175,4 +172,20 @@ li {
 a {
   color: #42b983;
 }
+
+.el-row {
+  margin-bottom: 20px;
+}
+.el-row:last-child {
+  margin-bottom: 0;
+}
+.el-col {
+  border-radius: 4px;
+}
+
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+}
+
 </style>
