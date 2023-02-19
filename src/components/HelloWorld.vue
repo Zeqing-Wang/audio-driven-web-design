@@ -1,4 +1,5 @@
 <template>
+  <form action="/" method="POST">
   <div class="hello">
     <el-image style="width: 10%" :src="require('../assets/jlu.jpg')" :fit="fit" />
     <!-- <img src="../assets/jlu.jpg" > -->
@@ -51,7 +52,8 @@
         <div class="el-upload__tip">
           wav音频文件大小应不超过5MB
         </div>
-        <el-input v-model="input" placeholder="请输入与音频相对应的文字" />
+        <el-input v-model="input_text" placeholder="请输入与音频相对应的文字" @input="change($event)"/>
+        <p>消息是: {{ message }}</p>
       </template>
     </el-upload>
 
@@ -96,7 +98,7 @@
     <p></p>
 
     <div>
-      <el-button type="primary" disabled>生成</el-button>
+      <el-button type="primary" @click="get_data">生成</el-button>
     </div>
 
     <p></p>
@@ -119,12 +121,16 @@
       <el-col :span="6"><div class="grid-content ep-bg-purple" /></el-col>
       <el-col :span="6"><div class="grid-content ep-bg-purple" /></el-col>
     </el-row>
-
   </div>
+  <button @click="sendMessage">Count is: {{ count }}</button>
+</form>
 </template>
+
 <script setup>
 // import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
 import { ref } from 'vue'
+import axios from 'axios'
+// import { response } from 'express';
 // const fits = ['fill', 'contain', 'cover', 'none', 'scale-down']
 const fit = 'fill'
 // const url = '../assets/jlu.jpg'
@@ -152,7 +158,29 @@ const options = [
     label: 'Option5',
   },
 ]
+const count = ref(0)
+function sendMessage(){
+  count.value++
+}
 
+// function set_charts(data){
+//         // 提示框显示数据
+//         alert("数组1："+data.data1+"\n"+"数组2："+data.data2);
+//         // 更新表格数据
+//         let lineData = { ...this.lineChartData };
+//         lineData.datasets.forEach(dataset => {
+//           dataset.data = data.data1;
+//         })
+//         this.lineChartData = lineData;
+// }
+
+function get_data(){
+  axios
+  .get('http://127.0.0.1:15004/get_data')
+  .then(response => {
+    this.set_charts(response.data)
+  })
+}
 </script>
 
 
