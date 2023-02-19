@@ -67,18 +67,19 @@
 
     <h3>第二步，选择您想要生成的风格以及ID</h3>
     <p></p>
-    <el-select v-model="value" class="m-2" placeholder="Select" size="large">
+    选择生成风格ID:
+    <el-select v-model="style_value" class="m-2" placeholder="Select" size="large">
       <el-option
-        v-for="item in options"
+        v-for="item in style_options"
         :key="item.value"
         :label="item.label"
         :value="item.value"
       />
     </el-select>
-
-    <el-select v-model="value" class="m-2" placeholder="Select" size="large">
+    选择生成目标ID:
+    <el-select v-model="id_value" class="m-2" placeholder="Select" size="large">
       <el-option
-        v-for="item in options"
+        v-for="item in id_options"
         :key="item.value"
         :label="item.label"
         :value="item.value"
@@ -130,49 +131,119 @@
 // import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import axios from 'axios'
-// import { response } from 'express';
-// const fits = ['fill', 'contain', 'cover', 'none', 'scale-down']
-const fit = 'fill'
-// const url = '../assets/jlu.jpg'
-const value = ref('')
 
-const options = [
+const fit = 'fill'
+
+const style_value = ref('')
+
+const style_options = [
   {
-    value: 'Option1',
-    label: 'Option1',
+    value: 'FaceTalk_170728_03272_TA',
+    label: 'FaceTalk_170728_03272_TA',
   },
   {
-    value: 'Option2',
-    label: 'Option2',
+    value: 'FaceTalk_170904_00128_TA',
+    label: 'FaceTalk_170904_00128_TA',
   },
   {
-    value: 'Option3',
-    label: 'Option3',
+    value: 'FaceTalk_170725_00137_TA',
+    label: 'FaceTalk_170725_00137_TA',
   },
   {
-    value: 'Option4',
-    label: 'Option4',
+    value: 'FaceTalk_170915_00223_TA',
+    label: 'FaceTalk_170915_00223_TA',
   },
   {
-    value: 'Option5',
-    label: 'Option5',
+    value: 'FaceTalk_170811_03274_TA',
+    label: 'FaceTalk_170811_03274_TA',
+  },
+  {
+    value: 'FaceTalk_170913_03279_TA',
+    label: 'FaceTalk_170913_03279_TA',
+  },
+  {
+    value: 'FaceTalk_170904_03276_TA',
+    label: 'FaceTalk_170904_03276_TA',
+  },
+  {
+    value: 'FaceTalk_170912_03278_TA',
+    label: 'FaceTalk_170912_03278_TA',
+  },
+  {
+    value: 'FaceTalk_170811_03275_TA',
+    label: 'FaceTalk_170811_03275_TA',
+  },
+  {
+    value: 'FaceTalk_170908_03277_TA',
+    label: 'FaceTalk_170908_03277_TA',
+  },
+  {
+    value: 'FaceTalk_170809_00138_TA',
+    label: 'FaceTalk_170809_00138_TA',
+  },
+  {
+    value: 'FaceTalk_170731_00024_TA',
+    label: 'FaceTalk_170731_00024_TA',
   },
 ]
+
+const id_value = ref('')
+
+const id_options = [
+{
+    value: 'FaceTalk_170728_03272_TA',
+    label: 'FaceTalk_170728_03272_TA',
+  },
+  {
+    value: 'FaceTalk_170904_00128_TA',
+    label: 'FaceTalk_170904_00128_TA',
+  },
+  {
+    value: 'FaceTalk_170725_00137_TA',
+    label: 'FaceTalk_170725_00137_TA',
+  },
+  {
+    value: 'FaceTalk_170915_00223_TA',
+    label: 'FaceTalk_170915_00223_TA',
+  },
+  {
+    value: 'FaceTalk_170811_03274_TA',
+    label: 'FaceTalk_170811_03274_TA',
+  },
+  {
+    value: 'FaceTalk_170913_03279_TA',
+    label: 'FaceTalk_170913_03279_TA',
+  },
+  {
+    value: 'FaceTalk_170904_03276_TA',
+    label: 'FaceTalk_170904_03276_TA',
+  },
+  {
+    value: 'FaceTalk_170912_03278_TA',
+    label: 'FaceTalk_170912_03278_TA',
+  },
+  {
+    value: 'FaceTalk_170811_03275_TA',
+    label: 'FaceTalk_170811_03275_TA',
+  },
+  {
+    value: 'FaceTalk_170908_03277_TA',
+    label: 'FaceTalk_170908_03277_TA',
+  },
+  {
+    value: 'FaceTalk_170809_00138_TA',
+    label: 'FaceTalk_170809_00138_TA',
+  },
+  {
+    value: 'FaceTalk_170731_00024_TA',
+    label: 'FaceTalk_170731_00024_TA',
+  },
+]
+
 const count = ref(0)
 function sendMessage(){
   count.value++
 }
-
-// function set_charts(data){
-//         // 提示框显示数据
-//         alert("数组1："+data.data1+"\n"+"数组2："+data.data2);
-//         // 更新表格数据
-//         let lineData = { ...this.lineChartData };
-//         lineData.datasets.forEach(dataset => {
-//           dataset.data = data.data1;
-//         })
-//         this.lineChartData = lineData;
-// }
 
 function get_data(){
   axios
