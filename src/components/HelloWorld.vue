@@ -47,7 +47,7 @@
       :limit="3"
       :on-exceed="handleExceed"
     >
-    <el-button type="primary">上传音频。</el-button>
+      <el-button type="primary">上传音频。</el-button>
       <template #tip>
         <div class="el-upload__tip">
           wav音频文件大小应不超过5MB
@@ -67,8 +67,8 @@
 
     <h3>第二步，选择您想要生成的风格以及ID</h3>
     <p></p>
-    选择生成风格ID:
-    <el-select v-model="style_value" class="m-2" placeholder="Select" size="large">
+    选择生成ID:
+    <el-select v-model="style_choose" class="m-2" placeholder="Select" size="large">
       <el-option
         v-for="item in style_options"
         :key="item.value"
@@ -77,7 +77,7 @@
       />
     </el-select>
     选择生成目标ID:
-    <el-select v-model="id_value" class="m-2" placeholder="Select" size="large">
+    <el-select v-model="id_choose" class="m-2" placeholder="Select" size="large">
       <el-option
         v-for="item in id_options"
         :key="item.value"
@@ -123,7 +123,6 @@
       <el-col :span="6"><div class="grid-content ep-bg-purple" /></el-col>
     </el-row>
   </div>
-  <button @click="sendMessage">Count is: {{ count }}</button>
 </form>
 </template>
 
@@ -134,7 +133,7 @@ import axios from 'axios'
 
 const fit = 'fill'
 
-const style_value = ref('')
+//const style_value = ref('')
 
 const style_options = [
   {
@@ -187,7 +186,7 @@ const style_options = [
   },
 ]
 
-const id_value = ref('')
+// const id_value = ref('')
 
 const id_options = [
 {
@@ -240,16 +239,29 @@ const id_options = [
   },
 ]
 
-const count = ref(0)
-function sendMessage(){
-  count.value++
-}
 
+
+
+const generate_json = {
+  style_value:'Default style value.',
+  id_value:'Default id value.',
+  text:'Default text.'
+  // style_value : this.style_value,
+  // id_value : this.id_value,
+  // text : this.input_text,
+}
+const style_choose = ref("")
+const id_choose = ref("")
+const input_text = ref("")
 function get_data(){
+  generate_json.style_value = style_choose
+  generate_json.id_value = id_choose
+  generate_json.text = input_text
   axios
-  .get('http://127.0.0.1:15004/get_data')
+  .post('http://127.0.0.1:15004/post_test', generate_json, {headers:{'content-type':'application/json'}})
   .then(response => {
-    this.set_charts(response.data)
+    this.set_charts(response.data);
+    console.log('send success')
   })
 }
 </script>
