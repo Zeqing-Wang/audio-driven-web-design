@@ -44,7 +44,7 @@
       :on-preview="handlePreview"
       :on-remove="handleRemove"
       :before-remove="beforeRemove"
-      :limit="3"
+      :limit="1"
       :on-exceed="handleExceed"
     >
       <el-button type="primary">上传音频。</el-button>
@@ -258,7 +258,7 @@ function get_data(){
   generate_json.id_value = id_choose
   generate_json.text = input_text
   axios
-  .post('http://127.0.0.1:15004/post_test', generate_json, {headers:{'content-type':'application/json'}})
+  .post('http://127.0.0.1:9090/post_test', generate_json, {headers:{'content-type':'application/json'}})
   .then(response => {
     this.set_charts(response.data);
     console.log('send success')
