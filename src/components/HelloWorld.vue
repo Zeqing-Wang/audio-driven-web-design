@@ -34,38 +34,7 @@
       <el-step title="第三步" description="提交数据，等待您的3D人脸动画生成！" />
     </el-steps>
 
-    <h3>第一步，上传您的音频,并根据选择输入文字</h3>
-    <p></p>
-    <el-upload
-      v-model:file-list="fileList"
-      class="upload-wav"
-      action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-      multiple
-      :on-preview="handlePreview"
-      :on-remove="handleRemove"
-      :before-remove="beforeRemove"
-      :limit="1"
-      :on-exceed="handleExceed"
-    >
-      <el-button type="primary">上传音频。</el-button>
-      <template #tip>
-        <div class="el-upload__tip">
-          wav音频文件大小应不超过5MB
-        </div>
-        <el-input v-model="input_text" placeholder="请输入与音频相对应的文字" @input="change($event)"/>
-        <p>消息是: {{ message }}</p>
-      </template>
-    </el-upload>
-
-    <p></p>
-
-    <el-steps :active="2" align-center>
-      <el-step title="第一步" description="上传一段音频，并根据需要，选择是否通过文本协助内容生成。" />
-      <el-step title="第二步" description="选择生成的风格以及生成ID，即3D人脸动画的生成风格以及生成的人物ID。" />
-      <el-step title="第三步" description="提交数据，等待您的3D人脸动画生成！" />
-    </el-steps>
-
-    <h3>第二步，选择您想要生成的风格以及ID</h3>
+    <h3>第一步，选择您想要生成的风格以及ID</h3>
     <p></p>
     选择生成ID:
     <el-select v-model="style_choose" class="m-2" placeholder="Select" size="large">
@@ -86,6 +55,40 @@
       />
     </el-select>
 
+    
+
+    <p></p>
+
+    <el-steps :active="2" align-center>
+      <el-step title="第一步" description="上传一段音频，并根据需要，选择是否通过文本协助内容生成。" />
+      <el-step title="第二步" description="选择生成的风格以及生成ID，即3D人脸动画的生成风格以及生成的人物ID。" />
+      <el-step title="第三步" description="提交数据，等待您的3D人脸动画生成！" />
+    </el-steps>
+    <h3>第二步，上传您的音频,并根据选择输入文字</h3>
+    <p></p>
+    <el-upload
+      v-model:file-list="fileList"
+      class="upload-wav"
+      action="action"
+      multiple
+      :on-preview="handlePreview"
+      :on-remove="handleRemove"
+      :before-remove="beforeRemove"
+      :limit="1"
+      :on-exceed="handleExceed"
+      :http-request="uploadWav"
+    >
+      <el-button type="primary">上传音频并生成</el-button>
+      <template #tip>
+        <div class="el-upload__tip">
+          wav音频文件大小应不超过5MB
+        </div>
+        <el-input v-model="input_text" placeholder="请输入与音频相对应的文字" @input="change($event)"/>
+        <!-- <p>消息是: {{ message }}</p> -->
+      </template>
+    </el-upload>
+
+
     <p></p>
 
     <el-steps :active="3" align-center>
@@ -94,7 +97,7 @@
       <el-step title="第三步" description="提交数据，等待您的3D人脸动画生成！" />
     </el-steps>
 
-    <h3>第三步，提交数据，并等待您的3D人脸动画生成！</h3>
+    <h3>第三步，等待您的3D人脸动画生成！</h3>
 
     <p></p>
 
@@ -253,10 +256,14 @@ const generate_json = {
 const style_choose = ref("")
 const id_choose = ref("")
 const input_text = ref("")
+
 function get_data(){
   generate_json.style_value = style_choose
   generate_json.id_value = id_choose
   generate_json.text = input_text
+  let data = new FormData()
+  data.append("json_info", generate_json)
+  
   axios
   .post('http://127.0.0.1:9090/post_test', generate_json, {headers:{'content-type':'application/json'}})
   .then(response => {
@@ -264,6 +271,22 @@ function get_data(){
     console.log('send success')
   })
 }
+
+function uploadWav(params){
+  // generate_json.style_value = style_choose
+  // generate_json.id_value = id_choose
+  // generate_json.text = input_text
+  let data = new FormData()
+  // data.append("json_info", generate_json)
+  data.append("file", params.file)
+  axios
+  .post('http://127.0.0.1:9090/post_upload', data)
+  .then(response => {
+    this.set_charts(response.data);
+    console.log('send success')
+  })
+}
+
 </script>
 
 

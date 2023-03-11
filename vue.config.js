@@ -4,6 +4,6 @@ module.exports = defineConfig({
   devServer: {
     historyApiFallback: true,
     allowedHosts: "all",
-    proxy: 'http://127.0.0.1:9090',
+    //proxy: 'http://127.0.0.1:9090',
   }
 })
