@@ -11,15 +11,15 @@
     </p>
 
     <video controls width="500">
-        <source src="/media/cc0-videos/flower.webm" type="video/webm">
+        <!-- <source src="/media/cc0-videos/flower.webm" type="video/webm"> -->
 
         <source src="../assets/tongue-anim.mp4" type="video/mp4">
 
-        Download the
+        <!-- Download the
         <a href="/media/cc0-videos/flower.webm">WEBM</a>
         or
         <a href="/media/cc0-videos/flower.mp4">MP4</a>
-        video.
+        video. -->
     </video>
 
     <div>
@@ -77,8 +77,10 @@
       :limit="1"
       :on-exceed="handleExceed"
       :http-request="uploadWav"
+      :on-change="handleChanged"
+      :auto-upload="false"
     >
-      <el-button type="primary">上传音频并生成</el-button>
+      <el-button type="primary">上传音频</el-button>
       <template #tip>
         <div class="el-upload__tip">
           wav音频文件大小应不超过5MB
@@ -102,21 +104,15 @@
     <p></p>
 
     <div>
-      <el-button type="primary" @click="get_data">生成</el-button>
+      <!-- <el-button type="primary" @click="get_data">生成</el-button> -->
+      <el-button type="primary" @click="submitUploadWav">生成</el-button>
     </div>
 
     <p></p>
 
-    <video controls width="500">
-        <source src="/media/cc0-videos/flower.webm" type="video/webm">
 
-        <source src="../assets/test_FaceTalk_170809_00138_TA_condition_FaceTalk_170913_03279_TA.mp4" type="video/mp4">
-
-        Download the
-        <a href="/media/cc0-videos/flower.webm">WEBM</a>
-        or
-        <a href="/media/cc0-videos/flower.mp4">MP4</a>
-        video.
+    <video :src="videoURL" ref="videoPlay" controls="controls" width='300' height="300" poster="../assets/jlu.jpg">
+    您的浏览器不支持 video 元素。
     </video>
 
     <el-row :gutter="20">
@@ -242,7 +238,7 @@ const id_options = [
   },
 ]
 
-
+let files = []
 
 
 const generate_json = {
@@ -256,19 +252,49 @@ const generate_json = {
 const style_choose = ref("")
 const id_choose = ref("")
 const input_text = ref("")
+let videoURL = ref("")//'http://127.0.0.1:9090/videos/hubert_asr_large.mp4'
 
-function get_data(){
+function handleChanged(file){
+  files = file.raw
+}
+
+// function get_data(){
+//   generate_json.style_value = style_choose
+//   generate_json.id_value = id_choose
+//   generate_json.text = input_text
+//   let data = new FormData()
+//   data.append("json_info", generate_json)
+  
+//   axios
+//   .post('http://127.0.0.1:9090/post_test', generate_json, {headers:{'content-type':'application/json'}})
+//   .then(response => {
+//     //this.set_charts(response.data);
+//     console.log(response)
+//   })
+// }
+
+function submitUploadWav(){
+  // generate_json.style_value = style_choose
+  // generate_json.id_value = id_choose
+  // generate_json.text = input_text
   generate_json.style_value = style_choose
   generate_json.id_value = id_choose
   generate_json.text = input_text
+  console.log(style_choose.value);
+  console.log(generate_json);
   let data = new FormData()
-  data.append("json_info", generate_json)
-  
+  // data.append("json_info", generate_json)
+  data.append("file", files)
+  data.append("style_value", style_choose.value)
+  data.append("id_value", id_choose.value)
+  data.append("input_text", input_text.value)
   axios
-  .post('http://127.0.0.1:9090/post_test', generate_json, {headers:{'content-type':'application/json'}})
+  .post('http://127.0.0.1:9090/post_upload', data)
   .then(response => {
-    this.set_charts(response.data);
-    console.log('send success')
+    console.log(response.data);
+    console.log(response.data["result_url"]);
+    videoURL.value = response.data["result_url"];
+    console.log('videoURL', videoURL)
   })
 }
 
