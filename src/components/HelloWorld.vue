@@ -129,6 +129,7 @@
 // import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 import axios from 'axios'
+import { ElLoading } from 'element-plus'
 
 const fit = 'fill'
 
@@ -253,6 +254,20 @@ const style_choose = ref("")
 const id_choose = ref("")
 const input_text = ref("")
 let videoURL = ref("")//'http://127.0.0.1:9090/videos/hubert_asr_large.mp4'
+// let loadingCount = 0;
+// let loading;
+
+const loading = ref(false) // loading
+const openLoading = () => {
+  loading.value = ElLoading.service({
+    lock: true,
+    text: '生成中...',
+    background: 'rgba(0, 0, 0, 0.7)'
+  })
+}
+const closeLoading = () => {
+  loading.value.close()
+}
 
 function handleChanged(file){
   files = file.raw
@@ -273,7 +288,8 @@ function handleChanged(file){
 //   })
 // }
 
-function submitUploadWav(){
+
+async function submitUploadWav(){
   // generate_json.style_value = style_choose
   // generate_json.id_value = id_choose
   // generate_json.text = input_text
@@ -288,7 +304,8 @@ function submitUploadWav(){
   data.append("style_value", style_choose.value)
   data.append("id_value", id_choose.value)
   data.append("input_text", input_text.value)
-  axios
+  openLoading()
+  await axios
   .post('http://127.0.0.1:9090/post_upload', data)
   .then(response => {
     console.log(response.data);
@@ -296,22 +313,25 @@ function submitUploadWav(){
     videoURL.value = response.data["result_url"];
     console.log('videoURL', videoURL)
   })
+  closeLoading()
 }
 
-function uploadWav(params){
+async function uploadWav(params){
   // generate_json.style_value = style_choose
   // generate_json.id_value = id_choose
   // generate_json.text = input_text
   let data = new FormData()
   // data.append("json_info", generate_json)
   data.append("file", params.file)
-  axios
+  await axios
   .post('http://127.0.0.1:9090/post_upload', data)
   .then(response => {
     this.set_charts(response.data);
     console.log('send success')
   })
 }
+
+
 
 </script>
 
